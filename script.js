@@ -1,27 +1,36 @@
-// Number of clouds you want to create
-const numClouds = 10;
 
-for(let i = 0; i < numClouds; i++) {
-    // Creating new cloud
-    let cloud = document.createElement('div');
-    cloud.className = 'cloud';
-    cloud.innerHTML = '<div class="cloudBubble1"></div><div class="cloudBubble2"></div>';
+const container = document.getElementById('container');
 
-    // Appending new cloud to container
-    document.getElementById('container').appendChild(cloud);
-    
-    cloud.style.left = Math.random() * window.innerWidth + 'px';
-    cloud.style.top = Math.random() * window.innerHeight + 'px';
-    cloud.style.transform = 'scale(' + (Math.random() * 0.5 + 0.5) + ')';
+const cloudHTML = `
+    <div class="cloud">
+        <div class="cloudBubble1"></div>
+        <div class="cloudBubble2"></div>
+    </div>
+`;
+container.innerHTML = cloudHTML.repeat(5);
 
-    cloud.style.transition = 'all linear ' + (Math.random() * 5 + 5) + 's';
+const elements = document.getElementsByClassName("cloud");
 
-    setTimeout(moveCloud.bind(null, cloud), Math.random() * 2000);
+for (let element of elements){
+element.style.top = (Math.random()*100)+ '%';
+element.style.left = (Math.random()*100)+ '%';
+element.style.transform = "scale(" + ((Math.random() * 0.7) + 0.3) + ")";
+
+const intervalTime = (Math.random() * 20) + 6
+element.style.transition = "all linear " + intervalTime + "s"
+
+
+setTimeout(() => {
+  element.style.left = "100%"; // Start by moving left
+}, [100]);
+let x=1
+
+    setInterval(() => {
+    if(x%2 === 0)
+        element.style.left = "100%";
+    else
+        element.style.left = "-50%";
+    x+=1;
+    }, intervalTime * 1000)
 }
 
-function moveCloud(cloud) {
-    cloud.style.left = Math.random() * window.innerWidth + 'px';
-    cloud.style.top = Math.random() * window.innerHeight + 'px';
-
-    setTimeout(moveCloud.bind(null, cloud), Math.random() * 5000 + 5000);
-}
